@@ -2,13 +2,15 @@ import{Col, Layout, message, Row, Tabs } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import {Todo} from '../models/Todo';
 import TodosForm from './TodosForm';
-import {createTodo} from '../services/todoServices';
+import {createTodo, loadTodos} from '../services/todoServices';
+import TodoTab from './TodoTab';
 
 const { TabPane } = Tabs;
 const { Content } = Layout; 
 
 const TodoList: React.FC = () => {
     const [refreshing, setRefreshing] = useState(false);
+    const [todos, setTodos] = useState([]);
 
     const handleFormSubmit = async (todo: Todo) => {
         await createTodo(todo);
@@ -18,10 +20,19 @@ const TodoList: React.FC = () => {
 
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
+
         setRefreshing(false);
     },[refreshing]);
-    useEffect(() => {
 
+    const refresh = async () => {
+        await loadTodos()
+        .then(json => {
+            setTodos(json);
+        })
+    }
+    
+    useEffect(() => {
+        refresh();
     },[onRefresh])
 
     return (
@@ -34,9 +45,12 @@ const TodoList: React.FC = () => {
                             <TodosForm onFormSubmit ={handleFormSubmit}/>
                             <br />
                             <Tabs defaultActiveKey = "all">
-                                <TabPane tab="All" key="all"></TabPane>
-                                <TabPane tab="In Progress" key="active"></TabPane>
-                                <TabPane tab="Completed" key="completed"></TabPane></Tabs><br /><br />
+                                <TabPane tab="All" key="all">
+                                <TodoTab todos={todos}></TodoTab>
+
+                                </TabPane>
+                                
+                                </Tabs><br /><br />
                          </Col>
                      </Row>
                 </div>
