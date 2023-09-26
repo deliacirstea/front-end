@@ -20,15 +20,14 @@ const TodoList: React.FC = () => {
 
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
-
+            refresh()
         setRefreshing(false);
     },[refreshing]);
 
     const refresh = async () => {
-        await loadTodos()
-        .then(json => {
-            setTodos(json);
-        })
+        const result = await loadTodos();
+       setTodos(result);
+       console.log(todos);
     }
     
     useEffect(() => {
