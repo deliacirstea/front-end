@@ -11,7 +11,7 @@ const Todo = ({todo} : TodoProps) => {
         key={todo.id}
         >
             <div className="todo-item">
-                <Tag color={todo.completed ? 'green ': 'red'} className='todo-tag'>{todo.title || 'No Title'}
+                <Tag color={todo.completed ? 'green ': 'red'} className='todo-tag'>{todo.text || 'No Title'}
                 </Tag>
             </div>
         </List.Item>

@@ -1,7 +1,7 @@
 export type TodosTabProps = {
     todos: {
         id: number;
-        title: string;
+        text: string;
         completed: boolean;
     }[];
 };

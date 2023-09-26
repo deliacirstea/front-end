@@ -1,7 +1,7 @@
 export type TodoProps = {
     todo: {
         id: number;
-        title: string;
+        text: string;
         completed: boolean;
     };
 };
