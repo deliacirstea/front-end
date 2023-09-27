@@ -10,7 +10,7 @@ const TodosForm: React.FC<TodosFormsProps> = (props) => {
 
     const onFinish = () => {
         const todo: Todo = {
-            title: form.getFieldValue('title'),
+            text: form.getFieldValue('title'),
             completed: false,
         };
         onFormSubmit(todo);

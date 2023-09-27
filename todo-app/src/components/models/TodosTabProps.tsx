@@ -4,4 +4,7 @@ export type TodosTabProps = {
         text: string;
         completed: boolean;
     }[];
+    /* onTodoToggle: (todo: {id:number; title:string;completed:boolean;})=>void; */
+    onTodoRemoval: (todo:{id:number; text:string; completed:boolean;}) =>void;
+
 };
