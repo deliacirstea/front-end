@@ -2,7 +2,7 @@ import{Col, Layout, message, Row, Tabs } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import {Todo} from '../models/Todo';
 import TodosForm from './TodosForm';
-import {createTodo, loadTodos} from '../services/todoServices';
+import {createTodo, loadTodos, deleteTodo} from '../services/todoServices';
 import TodoTab from './TodoTab';
 
 const { TabPane } = Tabs;
@@ -18,8 +18,18 @@ const TodoList: React.FC = () => {
         message.success('Your Todo has been added!');
     } 
 
+    const handleRemoveTodo = async (todo: Todo) => {
+        if (typeof todo.id !== 'undefined' && 'id' in todo){
+            let idD = todo.id
+            await deleteTodo(idD);
+            onRefresh();
+            message.warning('You have deleted your todo');
+        }
+    }
+
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
+        //await loadTodos();
             refresh()
         setRefreshing(false);
     },[refreshing]);
@@ -45,7 +55,7 @@ const TodoList: React.FC = () => {
                             <br />
                             <Tabs defaultActiveKey = "all">
                                 <TabPane tab="All" key="all">
-                                <TodoTab todos={todos}></TodoTab>
+                                <TodoTab todos={todos} /*onTodoToggle={handleToggleTodoStatus}*/ onTodoRemoval={handleRemoveTodo}></TodoTab>
 
                                 </TabPane>
                                 
