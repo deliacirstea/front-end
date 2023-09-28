@@ -13,8 +13,15 @@ export const loadTodos = async () => {
     .then(response => response.data);
 }
 
+export const updateTodo = (todo: { id?: number; text: string; completed: boolean;}) =>
+{
+    return axios.put(`${baseUrl}/${todo.id}`,{
+        id: todo.id,
+        text: todo.text,
+        completed: todo.completed
+    }).then(response => response.data);
+}
 export const deleteTodo = (id: number) => {
     return   axios.delete(`${baseUrl}/${id}`)
     .then(response => response.data);
-
 }
