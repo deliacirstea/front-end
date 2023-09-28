@@ -1,33 +1,78 @@
 import{Col, Layout, message, Row, Tabs } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
 import {Todo} from '../models/Todo';
 import TodosForm from './TodosForm';
-import {createTodo, loadTodos, deleteTodo} from '../services/todoServices';
+import {createTodo, loadTodos, deleteTodo, updateTodo} from '../services/todoServices';
 import TodoTab from './TodoTab';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useState, useCallback, useEffect } from 'react';
 
 const { TabPane } = Tabs;
 const { Content } = Layout; 
 
-const TodoList: React.FC = () => {
-    const [refreshing, setRefreshing] = useState(false);
-    const [todos, setTodos] = useState([]);
+const TodoList = () => {
+  const [refreshing, setRefreshing] = useState(false)
+    /*const [todos, setTodos] = useState([]);*/
+
+    const [activeTodos, setActiveTodos] = useState([]);
+    const[completedTodos, setCompletedTodos]= useState([]);
+
+    //acces the client
+    const queryClient = useQueryClient();
+
+    //queries
+    const {isLoading, isError, data} = useQuery('todos', async () => {
+        const data = await loadTodos();
+        setActiveTodos(data.filter((todo: Todo) => todo.completed === false));
+        setCompletedTodos (data.filter((todo : Todo) =>  todo.completed === true))
+        return data
+    })
+
+    //mutations
+    const  createMutation = useMutation(createTodo,{
+        onSuccess: () => {
+            //invalidate abnd refetch
+            queryClient.invalidateQueries('todos');
+            message.success('Added!');
+        },
+    })
+
+    const  updateMutation = useMutation(updateTodo, {
+        onSuccess: () => {
+            //invalidate abnd refetch
+            queryClient.invalidateQueries('todos');
+            message.info('Updated');
+        }
+    })
+
+    const deleteMutation = useMutation(deleteTodo, {
+        onSuccess: () => {
+            //invalidate and refetch
+            queryClient.invalidateQueries('todos');
+            message.warning('Deleted!');
+        },
+        onError: () => {
+            //error
+            console.log('Error deleting todo')
+        },
+    })
 
     const handleFormSubmit = async (todo: Todo) => {
-        await createTodo(todo);
-        onRefresh();
-        message.success('Your Todo has been added!');
+       createMutation.mutate(todo);
     } 
+
+    const handleToggleTodoStatus = async (todo: Todo) => {
+        todo.completed = !todo.completed;
+        updateMutation.mutate(todo);
+    }
+
 
     const handleRemoveTodo = async (todo: Todo) => {
         if (typeof todo.id !== 'undefined' && 'id' in todo){
-            let idD = todo.id
-            await deleteTodo(idD);
-            onRefresh();
-            message.warning('You have deleted your todo');
+            deleteMutation.mutate(todo.id);
         }
     }
 
-    const onRefresh = useCallback(async () => {
+  /*  const onRefresh = useCallback(async () => {
         setRefreshing(true);
         //await loadTodos();
             refresh()
@@ -42,7 +87,7 @@ const TodoList: React.FC = () => {
     
     useEffect(() => {
         refresh();
-    },[onRefresh])
+    },[onRefresh])*/
 
     return (
         <Layout className="layout">
@@ -53,13 +98,22 @@ const TodoList: React.FC = () => {
                             <h1>Todo List</h1>
                             <TodosForm onFormSubmit ={handleFormSubmit}/>
                             <br />
+                            {isLoading && <div>Loading todos from the server...</div>}
+                            {isError && <div>Something went wrong</div>}
                             <Tabs defaultActiveKey = "all">
                                 <TabPane tab="All" key="all">
-                                <TodoTab todos={todos} /*onTodoToggle={handleToggleTodoStatus}*/ onTodoRemoval={handleRemoveTodo}></TodoTab>
+                                <TodoTab todos={data} onTodoToggle={handleToggleTodoStatus} onTodoRemoval={handleRemoveTodo}/>
+                                </TabPane>
 
+                                <TabPane tab="In Progress" key="active">
+                                <TodoTab todos={activeTodos} onTodoToggle={handleToggleTodoStatus} onTodoRemoval={handleRemoveTodo}/>
                                 </TabPane>
                                 
-                                </Tabs><br /><br />
+                                <TabPane tab="Completed" key="complete">
+                                <TodoTab todos={completedTodos} onTodoToggle={handleToggleTodoStatus} onTodoRemoval={handleRemoveTodo}/>
+                                </TabPane>
+                                
+                                </Tabs>
                          </Col>
                      </Row>
                 </div>

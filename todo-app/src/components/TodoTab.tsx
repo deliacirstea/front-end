@@ -2,7 +2,7 @@ import {List} from 'antd';
 import TodoItem from './TodoItem';
 import {TodosTabProps} from './models/TodosTabProps';
 
-const TodosTab = ({todos, /*onTodoToggle,*/ onTodoRemoval}: TodosTabProps) => {
+const TodosTab = ({todos, onTodoToggle, onTodoRemoval}: TodosTabProps) => {
     return (
         <>
         <List
@@ -12,7 +12,7 @@ const TodosTab = ({todos, /*onTodoToggle,*/ onTodoRemoval}: TodosTabProps) => {
         renderItem={(todo) => {
             return <TodoItem
             todo={todo}
-            /*onTodoToggle={onTodoToggle}*/
+            onTodoToggle={onTodoToggle}
             onTodoRemoval ={onTodoRemoval}
             />
         }}
