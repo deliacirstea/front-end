@@ -6,7 +6,6 @@ import TodoTab from './TodoTab';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useState, useCallback, useEffect } from 'react';
 import '../App.scss';
-import '../styles/TodosForm.scss';
 
 
 const { TabPane } = Tabs;
@@ -14,10 +13,12 @@ const { Content } = Layout;
 
 const TodoList = () => {
   const [refreshing, setRefreshing] = useState(false)
-    /*const [todos, setTodos] = useState([]);*/
+    
 
     const [activeTodos, setActiveTodos] = useState([]);
     const[completedTodos, setCompletedTodos]= useState([]);
+
+    
 
     //acces the client
     const queryClient = useQueryClient();
@@ -77,7 +78,7 @@ const TodoList = () => {
 
     return (
           
-            <Content style={{padding: '10px 60px'}}>
+            <Content style={{padding: '100px 200px 100px'}}>
                 <div className='layout'>
                     <Row>
                         <Col span ={15} offset={5}>
@@ -85,34 +86,34 @@ const TodoList = () => {
                             <div className='todo-form'>
                             <TodosForm onFormSubmit ={handleFormSubmit}/>
                             </div>
-                            <br />
+                            
                             {isLoading && <div>Loading todos from the server...</div>}
                             {isError && <div>Something went wrong</div>}
-                            <div className='todo-progress'>
-                                <Tabs  defaultActiveKey = "all">
+                            
+                                <Tabs className='todo-progress'  defaultActiveKey = "all">
                                 <TabPane tab="All" key="all">
                                 <TodoTab todos={data} onTodoToggle={handleToggleTodoStatus} onTodoRemoval={handleRemoveTodo}/>
                                 </TabPane>
 
-                                <TabPane tab="In Progress" key="active">
+                                <TabPane className='todo-progress' tab="Ongoing" key="active">
                                 <TodoTab todos={activeTodos} onTodoToggle={handleToggleTodoStatus} onTodoRemoval={handleRemoveTodo}/>
                                 </TabPane>
                                 
-                                <TabPane tab="Completed" key="complete">
+                                <TabPane className='todo-progress' tab="Done" key="complete">
                                 <TodoTab todos={completedTodos} onTodoToggle={handleToggleTodoStatus} onTodoRemoval={handleRemoveTodo}/>
                                 </TabPane>
-                                
+                                <br/>
                                 </Tabs>
-                            </div>
+                                <br/>
+                           
                             
                          </Col>
                      </Row>
                 </div>
             </Content>
-        
-        
-              
+         
 
+       
         
         
         

@@ -4,6 +4,9 @@ import {TodosTabProps} from './models/TodosTabProps';
 import '../styles/TodosForm.scss';
 
 const TodosTab = ({todos, onTodoToggle, onTodoRemoval}: TodosTabProps) => {
+
+    //const reversedTodos = [...todos].reverse();
+
     return (
         <>
         <List
