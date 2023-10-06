@@ -1,38 +1,76 @@
-.App {
+ .header {
+ /* height: 300px;
+  width: 100%;*/
   text-align: center;
-}
+  font-family: 'Satisfy', cursive;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  } 
+  .layout{
+    background-color:#5B7553; 
+    border: 2px solid #040403; 
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    color: #f8eeee; 
+    align-items: center;
+   text-align: center;
+  } 
+  
+  .card-container{
+    height: 300px;
+    width: 300px;
+    box-shadow: 0px 3px 50px #A5A5A5;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  .card-wrapper{
+    width: 270px; 
+    height: 200px; 
+    box-shadow: 0px 3px 50px #A5A5A5;
+    display: flex;
+    flex-direction: column;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .card-top{
+    width: 100%;
+    height: 2%;
   }
-}
+ 
+
+
+  .task-holder{
+    width: 100%;
+    height: 98%;
+    padding: 10px 10px;
+    display : flex;
+    flex-direction: column;
+    position: relative;
+  }
+  
+  .card-header{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 80px;
+    height: 30px;
+    padding: 1px 1px !important;
+    text-align: center;
+  }
+  
+  .task-container{
+    height: 600px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #F6F7F8;
+    padding : 40px 100px;
+  }
+  
+  .todo-progress{
+   // display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    
+  }
+
+

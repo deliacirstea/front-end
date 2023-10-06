@@ -5,6 +5,9 @@ import {createTodo, loadTodos, deleteTodo, updateTodo} from '../services/todoSer
 import TodoTab from './TodoTab';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useState, useCallback, useEffect } from 'react';
+import '../App.scss';
+import '../styles/TodosForm.scss';
+
 
 const { TabPane } = Tabs;
 const { Content } = Layout; 
@@ -72,35 +75,21 @@ const TodoList = () => {
         }
     }
 
-  /*  const onRefresh = useCallback(async () => {
-        setRefreshing(true);
-        //await loadTodos();
-            refresh()
-        setRefreshing(false);
-    },[refreshing]);
-
-    const refresh = async () => {
-        const result = await loadTodos();
-       setTodos(result);
-       console.log(todos);
-    }
-    
-    useEffect(() => {
-        refresh();
-    },[onRefresh])*/
-
     return (
-        <Layout className="layout">
+          
             <Content style={{padding: '10px 60px'}}>
-                <div className='todolist'>
+                <div className='layout'>
                     <Row>
                         <Col span ={15} offset={5}>
-                            <h1>Todo List</h1>
+                            <h1 className='header'>Todo List</h1>
+                            <div className='todo-form'>
                             <TodosForm onFormSubmit ={handleFormSubmit}/>
+                            </div>
                             <br />
                             {isLoading && <div>Loading todos from the server...</div>}
                             {isError && <div>Something went wrong</div>}
-                            <Tabs defaultActiveKey = "all">
+                            <div className='todo-progress'>
+                                <Tabs  defaultActiveKey = "all">
                                 <TabPane tab="All" key="all">
                                 <TodoTab todos={data} onTodoToggle={handleToggleTodoStatus} onTodoRemoval={handleRemoveTodo}/>
                                 </TabPane>
@@ -114,11 +103,19 @@ const TodoList = () => {
                                 </TabPane>
                                 
                                 </Tabs>
+                            </div>
+                            
                          </Col>
                      </Row>
                 </div>
             </Content>
-        </Layout>);
+        
+        
+              
 
+        
+        
+        
+        ); 
 }
 export default TodoList;
