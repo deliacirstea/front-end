@@ -1,8 +1,12 @@
 import {List} from 'antd';
 import TodoItem from './TodoItem';
 import {TodosTabProps} from './models/TodosTabProps';
+import '../styles/TodosForm.scss';
 
 const TodosTab = ({todos, onTodoToggle, onTodoRemoval}: TodosTabProps) => {
+
+    //const reversedTodos = [...todos].reverse();
+
     return (
         <>
         <List
@@ -18,7 +22,7 @@ const TodosTab = ({todos, onTodoToggle, onTodoRemoval}: TodosTabProps) => {
         }}
         pagination={{
             position: 'bottom',
-            pageSize: 10,
+            pageSize: 5,
         }}
         />
         </>

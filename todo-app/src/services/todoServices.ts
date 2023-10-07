@@ -5,12 +5,17 @@ export const createTodo = async(todo : {text: string; completed:boolean;}) => {
     return await axios.post(baseUrl, {
         text: todo.text,
         completed: todo.completed
-    }).then(response => response.data);
+    }).then(response => response.data)
+    .catch(error => {
+        console.log("Error in creating Todo", error);
+    });;
 }
 
 export const loadTodos = async () => {
     return  await axios.get(baseUrl)
-    .then(response => response.data);
+    .then(response => response.data) .catch(error => {
+        console.log("Error in loading Todo", error);
+    });;
 }
 
 export const updateTodo = (todo: { id?: number; text: string; completed: boolean;}) =>
@@ -19,9 +24,15 @@ export const updateTodo = (todo: { id?: number; text: string; completed: boolean
         id: todo.id,
         text: todo.text,
         completed: todo.completed
-    }).then(response => response.data);
+    }).then(response => response.data)
+    .catch(error => {
+        console.log("Error in updating Todo", error);
+    });
 }
 export const deleteTodo = (id: number) => {
     return   axios.delete(`${baseUrl}/${id}`)
-    .then(response => response.data);
+    .then(response => response.data)
+    .catch(error => {
+        console.log("Error in deleting Todo", error);
+    });;
 }
