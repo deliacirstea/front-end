@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tooltip, Button, Popconfirm, Switch } from 'antd';
+import {Tooltip, Button, Popconfirm, Switch, message } from 'antd';
 import {CloseOutlined, CheckOutlined} from '@ant-design/icons'; 
 import {TodoProps} from './models/TodoProps';
 import TodoEdit from './TodoEdit';
@@ -8,6 +8,16 @@ import '../App.scss'
 
 const Todo = ({todo, onTodoRemoval, onTodoToggle} : TodoProps ) => {
 
+  const handleTodoRemoval = async () => {
+    try {
+      // Attempt to remove the todo
+      await onTodoRemoval(todo);
+    } catch (error) {
+      console.error("Error removing todo:", error);
+      message.error("An error occurred while removing the todo. Please try again later.");
+    }
+  };
+  
        return (
         <div className="sticky-note-card"> 
             <div className={`task-title ${todo.completed ? 'completed' : 'not-completed'}`}>
@@ -27,7 +37,8 @@ const Todo = ({todo, onTodoRemoval, onTodoToggle} : TodoProps ) => {
             <Popconfirm
               title="Are you sure?"
               onConfirm={() => {
-                onTodoRemoval(todo);
+                handleTodoRemoval();
+                /* onTodoRemoval(todo); */
               }}
             >
               <Button className="remove-todo-btn" type="primary" danger>

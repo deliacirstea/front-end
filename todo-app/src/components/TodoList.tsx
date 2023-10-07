@@ -25,10 +25,15 @@ const TodoList = () => {
 
     //queries
     const {isLoading, isError, data} = useQuery('todos', async () => {
-        const data = await loadTodos();
-        setActiveTodos(data.filter((todo: Todo) => todo.completed === false));
-        setCompletedTodos (data.filter((todo : Todo) =>  todo.completed === true))
-        return data
+        try{
+            const data = await loadTodos();
+            setActiveTodos(data.filter((todo: Todo) => todo.completed === false));
+            setCompletedTodos (data.filter((todo : Todo) =>  todo.completed === true))
+            return data;
+        } catch(error){
+            throw new Error('Failed to load todos');
+        }
+       
     })
 
     //mutations
@@ -38,6 +43,10 @@ const TodoList = () => {
             queryClient.invalidateQueries('todos');
             message.success('Added!');
         },
+        onError: (error) => {
+            console.error('Error creating todo:', error);
+            message.error('An error occurred while adding the todo. Please try again later.');
+        },
     })
 
     const  updateMutation = useMutation(updateTodo, {
@@ -45,7 +54,11 @@ const TodoList = () => {
             //invalidate abnd refetch
             queryClient.invalidateQueries('todos');
             message.info('Updated');
-        }
+        },
+        onError: (error) => {
+            console.error('Error updating todo:', error);
+            message.error('An error occurred while updating the todo. Please try again later.');
+        },
     })
 
     const deleteMutation = useMutation(deleteTodo, {
@@ -54,9 +67,9 @@ const TodoList = () => {
             queryClient.invalidateQueries('todos');
             message.warning('Deleted!');
         },
-        onError: () => {
-            //error
-            console.log('Error deleting todo')
+        onError: (error) => {
+            console.error('Error deleting todo:', error);
+            message.error('An error occurred while deleting the todo. Please try again later.');
         },
     })
 
