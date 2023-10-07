@@ -21,12 +21,17 @@ const TodoEdit = (todo : Todo) => {
             text: form.getFieldValue('title'),
             completed: todo.completed,
         };
-        if (editedTodo.text != null){
-            await updateTodo(editedTodo);
-            queryClient.invalidateQueries('todos');
-        }
-        else {
-            message.warning("Your todo is not updated.");
+
+        try {
+            if (editedTodo.text != null) {
+                await updateTodo(editedTodo);
+                queryClient.invalidateQueries('todos');
+            } else {
+                message.warning("Your todo is not updated.");
+            }
+        } catch (error) {
+            console.error("Error updating todo:", error);
+            message.error("An error occurred while updating the todo. Please try again later.");
         }
 
     };

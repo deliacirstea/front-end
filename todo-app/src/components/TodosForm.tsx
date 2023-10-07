@@ -1,5 +1,5 @@
-import React from 'react';
-import {Button, Col, Form, Input, Row} from 'antd';
+import React, {useState} from 'react';
+import {Button, Col, Form, Input, Row, message} from 'antd';
 import {PlusCircleFilled} from '@ant-design/icons';
 import { Todo } from '../models/Todo';
 import {TodosFormsProps} from '../models/TodosFormsProps';
@@ -10,14 +10,24 @@ import '../App.scss';
 const TodosForm: React.FC<TodosFormsProps> = (props) => {
     const[form] = Form.useForm();
     const {onFormSubmit} = props;
+    const [submitting, setSubmitting] = useState(false);
 
-    const onFinish = () => {
-        const todo: Todo = {
-            text: form.getFieldValue('title'),
-            completed: false,
-        };
-        onFormSubmit(todo);
-        form.resetFields();
+    const onFinish = async () => {
+        setSubmitting(true);
+        try{
+            const todo: Todo = {
+                text: form.getFieldValue('title'),
+                completed: false,
+            };
+            await onFormSubmit(todo);
+            form.resetFields();
+        } catch(error){
+            console.error('Error submitting form:', error);
+            message.error('An error occurred while submitting the form. Please try again later.');
+        } finally {
+            setSubmitting(false);
+        }
+        
     }
     
     return (
@@ -37,7 +47,7 @@ const TodosForm: React.FC<TodosFormsProps> = (props) => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={24} md={7} lg={5} xl={4}> 
-                <Button type="primary" htmlType="submit" block>
+                <Button type="primary" htmlType="submit" block loading={submitting}>
                     
                     <PlusCircleFilled/> 
                 </Button>

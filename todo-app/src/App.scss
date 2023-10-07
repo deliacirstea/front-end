@@ -1,7 +1,7 @@
 .header {
   text-align: center;
   font-family: 'Satisfy', cursive;
-  /* Add responsive styles for header */
+ 
   @media screen and (max-width: 768px) {
     font-size: 24px; 
     }
@@ -88,6 +88,15 @@
     text-decoration: bold;
 
   }
+  .error-message {
+    background-color: #f44336; 
+    color: white; 
+    padding: 10px; 
+    border-radius: 5px; 
+    text-align: center; 
+    font-weight: bold; 
+}
+
   
   
   .todo-status {
@@ -116,7 +125,31 @@
   .right-content {
     flex-grow: 1; 
   }
+
+  .ant-pagination {
+    color:#f4f9fe;
+  }
   
+
+  .ant-pagination-item {
+    margin-right: 8px; 
+    border: 1px solid #111010; 
+    border-radius: 2%; 
+    color: #040403;
+
+    a {
+      color: #ae00ff; 
+
+      &:hover {
+        background-color: #738d36; 
+        color: #151414; 
+        border-radius: 2%;
+      }
+    }
+  }
+
+
+
   .App {
     min-height: 100vh;
 }
@@ -143,7 +176,7 @@ body {
 
 @media screen and (max-width: 768px) {
   .sticky-note-card {
-    grid-template-columns: 1fr; /* Single column layout for smaller screens */
+    grid-template-columns: 1fr; 
   }
 }
 
