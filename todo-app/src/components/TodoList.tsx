@@ -91,10 +91,10 @@ const TodoList = () => {
 
     return (
           
-            <Content style={{padding: '100px 200px 100px'}}>
+            <Content style={{padding: '20px'}}>
                 <div className='layout'>
-                    <Row>
-                        <Col span ={15} offset={5}>
+                    <Row justify="center" >
+                        <Col xs={24} sm={22} md={18} lg={16} xl={14}>
                             <h1 className='header'>Todo List</h1>
                             <div className='todo-form'>
                             <TodosForm onFormSubmit ={handleFormSubmit}/>
